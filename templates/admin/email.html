@@ -1,0 +1,76 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard",2)}}</a></li>
+    <li class="breadcrumb-item">{{_("Settings",2)}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("Email",2)}}</li>
+  </ol>
+</nav>
+
+
+<!-- Content Row -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-email-settings">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("Email Settings",2)}}
+                </h6>
+            </div>
+            <div class="card-body">
+
+                <div class="alert alert-primary" role="alert">
+                    {{_("These settings will be used to send email verifications, contact emails and password reset emails.",2)}}
+                </div>
+
+                <form id="email-settings">
+                    {{ csrf_token()|raw }}
+                    <div class="form-group">
+                        <label for="email_from_address">{{_("From Email Address",2)}}</label>
+                        <input type="text" class="form-control" id="email_from_address" name="email_from_address" value="{{SETTINGS.email_from_address}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_from_name">{{_("From Email Name",2)}}</label>
+                        <input type="text" class="form-control" id="email_from_name" name="email_from_name" value="{{SETTINGS.email_from_name}}">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="email_host">{{_("Send Emails using SMTP",2)}}</label>
+                        <i class="fas fa-info-circle" title="{{_('You can set this yes to send emails using SMTP. Your hosting service provider can provide you with required settings for SMTP',2)}}" data-toggle="tooltip" data-placement="top"></i>
+                        <select class="form-control" name="email_smtp" id="email_smtp">
+                            <option value="0" {% if SETTINGS.email_smtp == "0" %}selected{% endif %} >{{_("No",2)}}</option>
+                            <option value="1" {% if SETTINGS.email_smtp == "1" %}selected{% endif %} >{{_("Yes",2)}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email_host">{{_("Email Host",2)}}</label>
+                        <input type="text" class="form-control" id="email_host" name="email_host" value="{{SETTINGS.email_host}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_username">{{_("Email Username",2)}}</label>
+                        <input type="text" class="form-control" id="email_username" name="email_username" value="{{SETTINGS.email_username}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_password">{{_("Email Password",2)}}</label>
+                        <input type="password" class="form-control" id="email_password" name="email_password" value="{{SETTINGS.email_password}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_port">{{_("Email Port",2)}}</label>
+                        <select class="form-control" name="email_port" id="email_port">
+                            <option value="587" {% if SETTINGS.email_port == "587" %}selected{% endif %} >587 - Secure (TLS)</option>
+                            <option value="25" {% if SETTINGS.email_port == "25" %}selected{% endif %} >25 - Non-Encrypted</option>
+                            <option value="465" {% if SETTINGS.email_port == "465" %}selected{% endif %} >465 - Secure (SSL)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary update-settings" value="email-settings">{{_("Update",2)}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
